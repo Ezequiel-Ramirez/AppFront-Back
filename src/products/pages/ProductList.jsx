@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { productService } from '../services/productService';
+import { Link } from 'react-router-dom';
+import { productService } from '../../services/productService';
+import '../styles/ProductList.css';
 
-export function ProductList() {
+export const ProductList = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,15 +23,29 @@ export function ProductList() {
         }
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return (
+        <div className="loading-container">
+            <div className="spinner"></div>
+            <p>Loading products...</p>
+        </div>
+    );
+    
+    if (error) return (
+        <div className="alert alert-danger">
+            {error}
+        </div>
+    );
 
     return (
-        <div className="product-list">
-            <h2>Products</h2>
+        <>
+            <h1>Products Catalog</h1>
             <div className="products-grid">
                 {products.map(product => (
-                    <div key={product.id} className="product-card">
+                    <Link 
+                        to={`/products/${product.id}`} 
+                        key={product.id} 
+                        className="product-card"
+                    >
                         {product.mainImage && (
                             <img 
                                 src={product.mainImage} 
@@ -46,9 +62,9 @@ export function ProductList() {
                             <p className="price">{product.getFormattedPrice()}</p>
                             <p className="description">{product.description}</p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
-        </div>
+        </>
     );
-}
+}; 

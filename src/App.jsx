@@ -1,16 +1,12 @@
-import { ProductList } from './components/ProductList'
+import { AuthProvider } from './auth/context/AuthProvider'
+import { AppRouter } from './router/AppRouter'
 import './App.css'
 
 function App() {
   return (
-    <div className="app">
-      <header>
-        <h1>My Simple Shop</h1>
-      </header>
-      <main>
-        <ProductList />
-      </main>
-    </div>
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
   )
 }
 
